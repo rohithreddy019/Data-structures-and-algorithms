@@ -1,0 +1,97 @@
+#include<iostream>
+using namespace std;
+
+struct Node
+{
+	char data;
+	struct Node *next;
+};
+
+Node* newNode(char key)
+{
+	Node *temp = new Node;
+	temp->data = key;
+	temp->next = NULL;
+	return temp;
+}
+
+void printlist(Node *head)
+{
+	if (head==NULL)return;
+	while (head != NULL)
+	{
+		cout << head->data << " ";
+		head = head->next;
+	}
+	cout << endl;
+}
+
+void append(struct Node** headRef, char data)
+{
+	struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
+	struct Node *last = *headRef;
+	new_node->data = data;
+	new_node->next = NULL;
+	if (*headRef == NULL)
+	{
+	    *headRef = new_node;
+	    return;
+	}
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new_node;
+	return;
+}
+
+// task is to complete this function
+struct Node* arrange(Node *head)
+{
+    Node  *head1=head,*temp2=head,*temp1=temp2->next;
+    do
+    {
+        if(temp1->data=='a'||temp1->data=='e'||temp1->data=='i'||temp1->data=='o'||temp1->data=='u')
+        {
+            Node *temp3=temp1;
+            temp2->next=temp1->next;
+            temp1=temp1->next;
+            temp3->next=head1->next;
+            head1->next=temp3;
+            head1=head1->next;
+        }
+        else
+        {
+            temp2=temp1;
+            temp1=temp1->next;
+        }
+    }   
+   while(temp1!=NULL);
+    
+    if(head->data=='a'&&head->data=='e'&&head->data=='i'&&head->data=='o'&&head->data=='u')
+    {
+        Node *temp4=head;
+        head=head->next;
+        temp4->next=head1->next;
+        head1->next=temp4;
+    }
+   return head;
+}
+
+int main()
+{
+    int T;
+    cin>>T;
+    while(T--){
+        int n;
+        char tmp;
+        struct Node *head = NULL;
+        cin>>n;
+        while(n--){
+            cin>>tmp;
+            append(&head, tmp);
+        }
+        head = arrange(head);
+        printlist(head);
+    }
+	return 0;
+}
+
